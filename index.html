@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ElasticCollision</title>
+
+
+<!-- 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+ -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('body').on('keydown', function(e) {
+        console.log('===== keydown ====='); // 1番目に実行される
+        console.log(e);
+        console.log(e.keyCode);
+        switch(e.keyCode){
+        case 13://enter
+        	$('.img-toilet').click();
+        	break;
+        }
+    });
+
+	$('.img-toilet').click(function(){
+		var toiletWidth = $('.img-toilet').width();
+		var areaWidth = $('.left-area').width();
+		var comspeed = 200;
+		var elasticity = 0.5;
+
+		var relativeSpeed1b = comspeed;
+		var relativeSpeed2b = -comspeed;
+		var relativeSpeed1a = -comspeed*elasticity;
+		var relativeSpeed2a = comspeed*elasticity;
+
+		var speed1b = relativeSpeed1b + comspeed;
+		var speed1a = relativeSpeed1a + comspeed;
+		var speed2a = relativeSpeed2a + comspeed;
+		
+		var width1b = areaWidth-toiletWidth/2;
+		var width1a = areaWidth+toiletWidth;
+		var width2a = areaWidth+toiletWidth/2;
+
+		var time1b = width1b/speed1b*1000;
+		var time1a;
+		if(speed1a != 0)time1a = width1a/speed1a*1000;
+		var time2a = width2a/speed2a*1000;
+		
+		console.log(time1a);
+		console.log(time2a);
+		
+		$('.img-toilet').animate({
+			"marginLeft": width1b
+		}, time1b, 'linear', function(){
+			if(speed1a != 0){
+				$('.img-toilet').animate({
+					'marginLeft': width1a+width1b
+				}, time1a, 'linear');				
+			}
+			$('.img-toilet2').animate({
+				'marginLeft': width2a
+			}, time2a, 'linear');
+		});
+		
+	});
+});
+</script>
+</head>
+
+<body>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<div class='row'>
+	<div class='col-xs-6 left-area'>
+		<img class='img-toilet' src='pict/toilet2.png' width='100px'>	
+	</div>
+	<div class='col-xs-6'>
+		<img class='img-toilet2' src='pict/toilet2.png' width='100px'>	
+	</div>
+</div>
+
+</body>
+</html>
